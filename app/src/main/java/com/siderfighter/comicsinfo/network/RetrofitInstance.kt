@@ -1,14 +1,24 @@
 package com.siderfighter.comicsinfo.network
 
 import com.siderfighter.comicsinfo.data.endpoints.RajComicsNetworkInterface
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 private const val RAJ_COMICS_INFO_BASE_URL = "https://script.google.com/macros/s/" // todo: move to a secure location
 
+@Module
+@InstallIn(SingletonComponent::class)
 object RetrofitInstance {
+
+    @Singleton
+    @Provides
     fun getRajComicsInstance(): RajComicsNetworkInterface {
         val retrofit = Retrofit.Builder()
             .baseUrl(RAJ_COMICS_INFO_BASE_URL)
