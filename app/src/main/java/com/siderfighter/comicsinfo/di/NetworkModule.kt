@@ -1,4 +1,4 @@
-package com.siderfighter.comicsinfo.network
+package com.siderfighter.comicsinfo.di
 
 import com.siderfighter.comicsinfo.data.endpoints.RajComicsNetworkInterface
 import dagger.Module
@@ -15,8 +15,7 @@ private const val RAJ_COMICS_INFO_BASE_URL = "https://script.google.com/macros/s
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RetrofitInstance {
-
+class NetworkModule {
     @Singleton
     @Provides
     fun getRajComicsInstance(): RajComicsNetworkInterface {
