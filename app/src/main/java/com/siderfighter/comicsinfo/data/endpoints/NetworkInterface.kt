@@ -1,4 +1,4 @@
-package com.siderfighter.comicsinfo.data.repository
+package com.siderfighter.comicsinfo.data.endpoints
 
 import com.siderfighter.comicsinfo.data.endpoints.ApiEndpointConstants.RAJ_COMICS_PAGE_1
 import retrofit2.Response
