@@ -6,11 +6,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import javax.inject.Named
 
 @Module
 @InstallIn(ViewModelComponent::class)
 abstract class AppModule {
 
     @Binds
+    @Named("rajComics")
     abstract fun bindsRajComicsRepository(rajComicsRepository: RajComicsRepository): IRajComicsRepository
 }
