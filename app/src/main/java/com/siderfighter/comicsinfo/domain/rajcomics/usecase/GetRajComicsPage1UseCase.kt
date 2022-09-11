@@ -2,6 +2,7 @@ package com.siderfighter.comicsinfo.domain.rajcomics.usecase
 
 import com.siderfighter.comicsinfo.domain.rajcomics.IRajComicsRepository
 import com.siderfighter.comicsinfo.domain.rajcomics.IRajComicsResponse
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
