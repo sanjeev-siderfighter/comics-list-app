@@ -1,11 +1,10 @@
 package com.siderfighter.comicsinfo.network
 
-import com.siderfighter.comicsinfo.data.repository.RajComicsRepository
+import com.siderfighter.comicsinfo.data.repository.rajcomics.RajComicsRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 private const val RAJ_COMICS_INFO_BASE_URL = "https://script.google.com/macros/s/" // todo: move to a secure location
 
