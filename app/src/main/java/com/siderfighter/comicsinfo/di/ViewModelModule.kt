@@ -10,7 +10,7 @@ import javax.inject.Named
 
 @Module
 @InstallIn(ViewModelComponent::class)
-abstract class AppModule {
+abstract class ViewModelModule {
 
     @Binds
     @Named("rajComics")
