@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.siderfighter.comicsinfo">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".application.ComicsListApp"
         android:allowBackup="true"
