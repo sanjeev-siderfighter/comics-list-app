@@ -17,10 +17,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel.getRajComicsPage1()
+        val tv = findViewById<TextView>(R.id.tv_hello)
+
+//        viewModel.getRajComicsPage1()
+        viewModel.getRajComicsByPage(2)
 
         viewModel.rajComicsPage1.observe(this) {
-            findViewById<TextView>(R.id.tv_hello).text = it.data.toString()
+//            tv.text = it.data.toString()
+        }
+
+        viewModel.rajComicsByPage.observe(this) {
+            tv.text = tv.text.toString() + it.data.toString()
         }
     }
 }

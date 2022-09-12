@@ -4,4 +4,5 @@ import com.siderfighter.comicsinfo.data.repository.rajcomics.RajComicsResponse
 
 interface IRajComicsRepository {
     suspend fun getRajComicsPage1(): IRajComicsResponse
+    suspend fun getRajComicsByPage(page: Int): IRajComicsResponse
 }

@@ -12,4 +12,14 @@ class RajComicsRepository @Inject constructor(
     override suspend fun getRajComicsPage1(): IRajComicsResponse {
         return networkInterface.getRajComicsPage1()
     }
+
+    override suspend fun getRajComicsByPage(page: Int): IRajComicsResponse {
+        return networkInterface.getRajComicsByPage(
+            RajComicsPageRequest(
+                page = page
+            )
+        )
+    }
+
+
 }
