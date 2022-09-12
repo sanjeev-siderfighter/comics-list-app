@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.siderfighter.comicsinfo.domain.rajcomics.IRajComicsResponse
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetRajComicsByPageUseCase
-import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetRajComicsPage1UseCase
+import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetAllRajComicsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RajComicsViewModel @Inject constructor(
-    private val getRajComicsPage1UseCase: GetRajComicsPage1UseCase,
+    private val getAllRajComicsUseCase: GetAllRajComicsUseCase,
     private val getRajComicsByPageUseCase: GetRajComicsByPageUseCase
 ) : ViewModel() {
 
@@ -25,9 +25,9 @@ class RajComicsViewModel @Inject constructor(
     private val _rajComicsByPage = MutableLiveData<IRajComicsResponse>()
     val rajComicsByPage: LiveData<IRajComicsResponse> = _rajComicsByPage
 
-    fun getRajComicsPage1() {
+    fun getAllRajComics() {
         viewModelScope.launch {
-            val data = getRajComicsPage1UseCase.invokeUseCase()
+            val data = getAllRajComicsUseCase.invokeUseCase()
             _rajComicsPage1.postValue(data)
         }
     }

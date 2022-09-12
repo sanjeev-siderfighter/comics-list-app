@@ -9,8 +9,8 @@ class RajComicsRepository @Inject constructor(
     private val networkInterface: RajComicsNetworkInterface
 ) : IRajComicsRepository {
 //    @Inject lateinit var networkInterface: RajComicsNetworkInterface
-    override suspend fun getRajComicsPage1(): IRajComicsResponse {
-        return networkInterface.getRajComicsPage1()
+    override suspend fun getAllRajComics(): IRajComicsResponse {
+        return networkInterface.getAllRajComics()
     }
 
     override suspend fun getRajComicsByPage(page: Int): IRajComicsResponse {

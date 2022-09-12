@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         val tv = findViewById<TextView>(R.id.tv_hello)
 
-//        viewModel.getRajComicsPage1()
+//        viewModel.getAllRajComics()
         viewModel.getRajComicsByPage(2)
 
         viewModel.rajComicsPage1.observe(this) {
