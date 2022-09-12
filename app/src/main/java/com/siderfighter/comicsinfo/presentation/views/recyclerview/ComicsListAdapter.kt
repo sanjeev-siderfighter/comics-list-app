@@ -4,16 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.siderfighter.comicsinfo.databinding.ComicItemLayoutBinding
-import com.siderfighter.comicsinfo.presentation.models.RajComicsListItemModel
+import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import javax.inject.Inject
 
 class ComicsListAdapter
 @Inject
 constructor() : RecyclerView.Adapter<ComicsListViewHolder>() {
 
-    private lateinit var comicsList: List<List<String>>
+    private lateinit var comicsList: List<RajComicsListItemModel>
 
-    fun setComicsList(comicsList: List<List<String>>) {
+    fun setComicsList(comicsList: List<RajComicsListItemModel>) {
         this.comicsList = comicsList
     }
 
@@ -29,11 +29,7 @@ constructor() : RecyclerView.Adapter<ComicsListViewHolder>() {
 
     override fun onBindViewHolder(holder: ComicsListViewHolder, position: Int) {
         holder.bind(
-            rajComicsListItemModel = RajComicsListItemModel(
-                comicName = comicsList[position][1],
-                characterName = comicsList[position][3],
-                comicNumber = comicsList[position][2]
-            )
+            comicsList[position]
         )
     }
 

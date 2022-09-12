@@ -39,7 +39,7 @@ class RajComicsListFragment : Fragment() {
     private fun initObservers() {
         viewModel.allRajComicsList.observe(viewLifecycleOwner) {
             Log.d("siderfighter", "$it")
-            rajComicsAdapter.setComicsList(it.data)
+            rajComicsAdapter.setComicsList(it.rajComicsList)
             binding.rvComicsList.adapter = rajComicsAdapter
         }
     }
