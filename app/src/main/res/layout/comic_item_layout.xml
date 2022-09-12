@@ -5,7 +5,7 @@
 
         <variable
             name="rajComicItem"
-            type="com.siderfighter.comicsinfo.presentation.models.RajComicsListItemModel" />
+            type="com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

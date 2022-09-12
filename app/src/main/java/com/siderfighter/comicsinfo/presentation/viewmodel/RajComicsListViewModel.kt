@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.siderfighter.comicsinfo.domain.rajcomics.IRajComicsResponse
+import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetAllRajComicsUseCase
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetRajComicsByPageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,8 +22,8 @@ constructor(
     private val getRajComicsByPageUseCase: GetRajComicsByPageUseCase
 ) : ViewModel() {
 
-    private val _allRajComicsList = MutableLiveData<IRajComicsResponse>()
-    val allRajComicsList: LiveData<IRajComicsResponse> = _allRajComicsList
+    private val _allRajComicsList = MutableLiveData<RajComicsListModel>()
+    val allRajComicsList: LiveData<RajComicsListModel> = _allRajComicsList
 
     fun getAllRajComics() {
         viewModelScope.launch {

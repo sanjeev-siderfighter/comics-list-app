@@ -2,7 +2,7 @@ package com.siderfighter.comicsinfo.presentation.views.recyclerview
 
 import androidx.recyclerview.widget.RecyclerView
 import com.siderfighter.comicsinfo.databinding.ComicItemLayoutBinding
-import com.siderfighter.comicsinfo.presentation.models.RajComicsListItemModel
+import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 
 class ComicsListViewHolder(private val binding: ComicItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
 
