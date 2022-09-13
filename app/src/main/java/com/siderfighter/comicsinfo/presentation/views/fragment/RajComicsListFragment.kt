@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.siderfighter.comicsinfo.R
 import com.siderfighter.comicsinfo.databinding.RajComicsListFragmentBinding
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
@@ -40,10 +39,16 @@ class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupBinding()
         initClickListeners()
         initObservers()
 
         viewModel.getAllRajComics()
+    }
+
+    private fun setupBinding() {
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
     private fun initClickListeners() {
@@ -59,6 +64,10 @@ class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
 
         viewModel.shouldShowLoader.observe(viewLifecycleOwner) {
             showOrHideLoader(it)
+        }
+
+        viewModel.searchKey.observe(viewLifecycleOwner) {
+            viewModel.searchRajComicsList(it)
         }
     }
 
@@ -79,7 +88,7 @@ class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
     }
 
     private fun getRajComicsListOfCharacter(character: String) {
-        viewModel.getRajComicsListByCharacter(character)
+        viewModel.searchRajComicsList(character)
     }
 
     override fun onItemClick(rajComicsItem: RajComicsListItemModel, position: Int) {

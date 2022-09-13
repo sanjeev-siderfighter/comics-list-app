@@ -32,6 +32,8 @@ constructor(
     private val _shouldShowLoader = MutableLiveData<Boolean>()
     val shouldShowLoader: LiveData<Boolean> = _shouldShowLoader
 
+    val searchKey = MutableLiveData<String>()
+
     fun getAllRajComics() {
         viewModelScope.launch {
             getAllRajComicsUseCase.invokeUseCase()
@@ -50,7 +52,7 @@ constructor(
         }
     }
 
-    fun getRajComicsListByCharacter(character: String) {
+    fun searchRajComicsList(character: String) {
         if (character.trim().isBlank()) return
 
         viewModelScope.launch {
