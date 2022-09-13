@@ -55,7 +55,7 @@ class RajComicsDetailFragment : Fragment() {
         sharedViewModel.rajComicsListLiveData.observe(viewLifecycleOwner) {
             Log.d("siderfighter", "observed shared view model")
             viewModel.rajComicsList = it
-            viewModel.fetchRajComicsListByCharacter(args.initialPosition)
+            viewModel.fetchRajComicsListByCharacter()
         }
 
         viewModel.shouldShowToast.observe(viewLifecycleOwner) {

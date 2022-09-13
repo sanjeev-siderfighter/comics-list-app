@@ -7,18 +7,18 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GetRajComicsListOfCharacterUseCase
+class SearchRajComicsListUseCase
 @Inject
 constructor() {
     suspend fun invokeUseCase(
         rajComicsList: RajComicsListModel,
-        character: String
+        key: String
     ): Flow<RajComicsListModel> {
         return flow {
             emit(
                 filterRajComicsByCharacter(
                     rajComicsList = rajComicsList,
-                    character = character
+                    key = key
                 )
             )
         }
@@ -26,12 +26,14 @@ constructor() {
 
     private suspend fun filterRajComicsByCharacter(
         rajComicsList: RajComicsListModel,
-        character: String
+        key: String
     ): RajComicsListModel {
         return withContext(Dispatchers.Default) {
             RajComicsListModel(
                 rajComicsList = rajComicsList.rajComicsList.filter {
-                    it.characterName.contains(character, ignoreCase = true)
+                    it.comicName.contains(key, ignoreCase = true)
+                            || it.characterName.contains(key, ignoreCase = true)
+                            || it.comicNumber.contains(key, ignoreCase = true)
                 }
             )
         }
