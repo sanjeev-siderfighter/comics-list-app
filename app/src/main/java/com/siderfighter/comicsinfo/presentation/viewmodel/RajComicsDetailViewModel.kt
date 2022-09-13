@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
-import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetRajComicsListOfCharacterUseCase
+import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetSelectedComicWithPositionUseCae
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class RajComicsDetailViewModel
 @Inject
 constructor(
-    private val getRajComicsListOfCharacterUseCase: GetRajComicsListOfCharacterUseCase
+    private val getSelectedComicWithPositionUseCae: GetSelectedComicWithPositionUseCae
 ) : ViewModel() {
     var rajComicsList: RajComicsListModel = RajComicsListModel(emptyList())
     private var rajComicsCharacterList = RajComicsListModel(emptyList())
@@ -35,9 +35,9 @@ constructor(
 
     fun fetchRajComicsListByCharacter(initialPosition: Int) {
         viewModelScope.launch {
-            getRajComicsListOfCharacterUseCase.invokeUseCase(
+            getSelectedComicWithPositionUseCae.invokeUseCase(
                 rajComicsList,
-                rajComicsList.rajComicsList[initialPosition].characterName
+                rajComicsList.rajComicsList[initialPosition]
             )
                 .onStart {
                     // showLoader()
@@ -45,8 +45,9 @@ constructor(
                 .onCompletion {
                     // hideLoader
                 }
-                .collect { rajComicsList ->
-                    rajComicsCharacterList = rajComicsList
+                .collect { comicListWithPosition ->
+                    rajComicsCharacterList = comicListWithPosition.first
+                    currentPosition = comicListWithPosition.second
                 }
         }
     }
