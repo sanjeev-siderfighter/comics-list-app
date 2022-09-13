@@ -26,16 +26,11 @@ constructor(
     private val _rajComic = MutableLiveData<RajComicsListItemModel>()
     val rajComic: LiveData<RajComicsListItemModel> = _rajComic
 
+    private val _shouldShowToast = MutableLiveData<Boolean>()
+    val shouldShowToast: LiveData<Boolean> = _shouldShowToast
+
     fun setInitialComic(rajComic: RajComicsListItemModel) {
         _rajComic.value = rajComic
-    }
-
-    fun getNextComicCharacterWise() {
-        sendRajComicsList(rajComic = rajComicsCharacterList.rajComicsList[++currentPosition])
-    }
-
-    fun getPreviousComicCharacterWise() {
-        sendRajComicsList(rajComic = rajComicsCharacterList.rajComicsList[--currentPosition])
     }
 
     fun fetchRajComicsListByCharacter(initialPosition: Int) {
@@ -55,6 +50,26 @@ constructor(
                 }
         }
     }
+
+    fun getNextComicCharacterWise() {
+        if (isAdditionSafe()) {
+            sendRajComicsList(rajComic = rajComicsCharacterList.rajComicsList[++currentPosition])
+        } else {
+            _shouldShowToast.value = true
+        }
+    }
+
+    fun getPreviousComicCharacterWise() {
+        if (isSubtractionSafe()) {
+            sendRajComicsList(rajComic = rajComicsCharacterList.rajComicsList[--currentPosition])
+        } else {
+            _shouldShowToast.value = false
+        }
+    }
+
+    private fun isAdditionSafe(): Boolean = (currentPosition + 1) < rajComicsCharacterList.rajComicsList.size
+
+    private fun isSubtractionSafe(): Boolean = currentPosition - 1 >= 0
 
     private fun sendRajComicsList(rajComic: RajComicsListItemModel) {
         _rajComic.postValue(rajComic)
