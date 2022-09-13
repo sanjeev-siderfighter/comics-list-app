@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.siderfighter.comicsinfo.R
 import com.siderfighter.comicsinfo.databinding.RajComicsListFragmentBinding
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
@@ -77,7 +79,7 @@ class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
     }
 
     override fun onItemClick(rajComicsItem: RajComicsListItemModel) {
-        TODO("Not yet implemented")
+        findNavController().navigate(R.id.rajComicsDetailFragment)
     }
 
 }
