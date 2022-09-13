@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetAllRajComicsUseCase
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetRajComicsByPageUseCase
-import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetRajComicsListByCharacterUseCase
+import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetRajComicsListOfCharacterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -21,7 +21,7 @@ class RajComicsListViewModel
 constructor(
     private val getAllRajComicsUseCase: GetAllRajComicsUseCase,
     private val getRajComicsByPageUseCase: GetRajComicsByPageUseCase,
-    private val getRajComicsListByCharacterUseCase: GetRajComicsListByCharacterUseCase
+    private val getRajComicsListOfCharacterUseCase: GetRajComicsListOfCharacterUseCase
 ) : ViewModel() {
 
     private var allRajComics = RajComicsListModel(listOf())
@@ -55,7 +55,7 @@ constructor(
 
         viewModelScope.launch {
 
-            getRajComicsListByCharacterUseCase.invokeUseCase(
+            getRajComicsListOfCharacterUseCase.invokeUseCase(
                 rajComicsList = allRajComics,
                 character = character
             ).onStart {

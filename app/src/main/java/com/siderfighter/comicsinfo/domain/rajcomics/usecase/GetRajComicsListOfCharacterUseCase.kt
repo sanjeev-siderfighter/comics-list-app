@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GetRajComicsListByCharacterUseCase
+class GetRajComicsListOfCharacterUseCase
 @Inject
 constructor() {
     suspend fun invokeUseCase(
