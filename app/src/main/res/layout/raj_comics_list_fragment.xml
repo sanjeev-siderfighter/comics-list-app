@@ -35,12 +35,26 @@
             android:id="@+id/rv_comics_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            tools:layout="@layout/comic_item_layout"
             android:clipToPadding="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/btn_entire_list"
             app:layout_constraintStart_toStartOf="@id/et_search_box"
+            app:layout_constraintTop_toBottomOf="@id/et_search_box"
+            tools:layout="@layout/comic_item_layout" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_search_box" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="ball-loader.json"
+            app:lottie_loop="true" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
