@@ -27,9 +27,9 @@ class GetAllRajComicsUseCase @Inject constructor(
             RajComicsListModel(
                 rajComicsList = rajComicsList.map { currComic ->
                     RajComicsListItemModel(
-                        comicName = currComic[1],
-                        characterName = currComic[3],
-                        comicNumber = currComic[2]
+                        comicName = currComic[1].trim(),
+                        characterName = currComic[3].trim(),
+                        comicNumber = currComic[2].trim()
                     )
                 }
             )
