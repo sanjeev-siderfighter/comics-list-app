@@ -1,5 +1,14 @@
-# PLAN
-- First just somehow provide all the data to the app and show it on the UI
-- Second improve the backend part - Add all data to the same single list and add pagination app level plus support for it on backend
-- Third - add filtering feature
-- Add authentication [IMP]
+# WELCOME TO COMIC LIST APP
+
+## Architecture Used:-
+#### Clean Architecture with MVVM
+
+## Dependency Injection
+#### Hilt
+
+## Network Call
+#### Retrofit 2
+
+## Others
+#### Used flow for invoking the usecases
+#### Used google's app script for designing simple backend
