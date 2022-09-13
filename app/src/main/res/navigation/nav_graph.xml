@@ -8,6 +8,12 @@
     <fragment
         android:id="@+id/rajComicsListFragment"
         android:name="com.siderfighter.comicsinfo.presentation.views.fragment.RajComicsListFragment"
-        tools:layout="@layout/raj_comics_list_fragment"
-        android:label="RajComicsListFragment" />
+        android:label="RajComicsListFragment"
+        tools:layout="@layout/raj_comics_list_fragment" />
+
+    <fragment
+        android:id="@+id/rajComicsDetailFragment"
+        android:name="com.siderfighter.comicsinfo.presentation.views.fragment.RajComicsDetailFragment"
+        android:label="RajComicsDetailFragment"
+        tools:layout="@layout/raj_comics_detail_fragment" />
 </navigation>
