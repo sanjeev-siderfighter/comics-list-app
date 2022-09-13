@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.siderfighter.comicsinfo.R
 import com.siderfighter.comicsinfo.databinding.RajComicsListFragmentBinding
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
+import com.siderfighter.comicsinfo.presentation.viewmodel.MainViewModel
 import com.siderfighter.comicsinfo.presentation.viewmodel.RajComicsListViewModel
 import com.siderfighter.comicsinfo.presentation.views.recyclerview.ComicsListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +23,8 @@ import javax.inject.Inject
 class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
 
     private val viewModel: RajComicsListViewModel by viewModels()
+    private val sharedViewModel: MainViewModel by activityViewModels()
+
     private lateinit var binding: RajComicsListFragmentBinding
 
     @Inject
@@ -79,11 +83,16 @@ class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
     }
 
     override fun onItemClick(rajComicsItem: RajComicsListItemModel) {
-        val action = RajComicsListFragmentDirections.actionRajComicsListFragmentToRajComicsDetailFragment(
-            comicTitle = rajComicsItem.comicName,
-            comicNumber = rajComicsItem.comicNumber,
-            characterName = rajComicsItem.characterName
-        )
+        viewModel.allRajComicsList.value?.let {
+            sharedViewModel.passRajComicsList(it)
+        }
+
+        val action =
+            RajComicsListFragmentDirections.actionRajComicsListFragmentToRajComicsDetailFragment(
+                comicTitle = rajComicsItem.comicName,
+                comicNumber = rajComicsItem.comicNumber,
+                characterName = rajComicsItem.characterName
+            )
         findNavController().navigate(action)
     }
 
