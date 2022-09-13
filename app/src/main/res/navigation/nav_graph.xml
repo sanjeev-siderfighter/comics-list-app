@@ -9,11 +9,28 @@
         android:id="@+id/rajComicsListFragment"
         android:name="com.siderfighter.comicsinfo.presentation.views.fragment.RajComicsListFragment"
         android:label="RajComicsListFragment"
-        tools:layout="@layout/raj_comics_list_fragment" />
+        tools:layout="@layout/raj_comics_list_fragment" >
+        <action
+            android:id="@+id/action_rajComicsListFragment_to_rajComicsDetailFragment"
+            app:destination="@id/rajComicsDetailFragment" />
+    </fragment>
 
-    <fragment
+        <fragment
         android:id="@+id/rajComicsDetailFragment"
         android:name="com.siderfighter.comicsinfo.presentation.views.fragment.RajComicsDetailFragment"
         android:label="RajComicsDetailFragment"
-        tools:layout="@layout/raj_comics_detail_fragment" />
+        tools:layout="@layout/raj_comics_detail_fragment">
+        <argument
+            android:name="comic_title"
+            android:defaultValue="Comic Title"
+            app:argType="string" />
+        <argument
+            android:name="character_name"
+            android:defaultValue="Character"
+            app:argType="string" />
+        <argument
+            android:name="comic_number"
+            android:defaultValue="Comic Number"
+            app:argType="string" />
+    </fragment>
 </navigation>

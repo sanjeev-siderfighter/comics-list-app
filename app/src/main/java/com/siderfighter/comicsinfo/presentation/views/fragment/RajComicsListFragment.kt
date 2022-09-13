@@ -79,7 +79,12 @@ class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
     }
 
     override fun onItemClick(rajComicsItem: RajComicsListItemModel) {
-        findNavController().navigate(R.id.rajComicsDetailFragment)
+        val action = RajComicsListFragmentDirections.actionRajComicsListFragmentToRajComicsDetailFragment(
+            comicTitle = rajComicsItem.comicName,
+            comicNumber = rajComicsItem.comicNumber,
+            characterName = rajComicsItem.characterName
+        )
+        findNavController().navigate(action)
     }
 
 }
