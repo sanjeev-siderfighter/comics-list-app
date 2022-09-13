@@ -31,7 +31,7 @@ constructor() {
         return withContext(Dispatchers.Default) {
             RajComicsListModel(
                 rajComicsList = rajComicsList.rajComicsList.filter {
-                    it.characterName.equals(character, ignoreCase = true)
+                    it.characterName.contains(character, ignoreCase = true)
                 }
             )
         }
