@@ -52,14 +52,17 @@ constructor(
         }
     }
 
-    fun searchRajComicsList(character: String) {
-        if (character.trim().isBlank()) return
+    fun searchRajComicsList(key: String) {
+        if (key.trim().isBlank()) {
+            _allRajComicsList.postValue(allRajComics)
+            return
+        }
 
         viewModelScope.launch {
 
             searchRajComicsListUseCase.invokeUseCase(
                 rajComicsList = allRajComics,
-                key = character
+                key = key
             ).onStart {
                 showLoader()
             }.onCompletion {
