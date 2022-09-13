@@ -33,22 +33,24 @@ constructor(
         _rajComic.value = rajComic
     }
 
-    fun fetchRajComicsListByCharacter(initialPosition: Int) {
+    fun fetchRajComicsListByCharacter() {
         viewModelScope.launch {
-            getSelectedComicWithPositionUseCae.invokeUseCase(
-                rajComicsList,
-                rajComicsList.rajComicsList[initialPosition]
-            )
-                .onStart {
-                    // showLoader()
-                }
-                .onCompletion {
-                    // hideLoader
-                }
-                .collect { comicListWithPosition ->
-                    rajComicsCharacterList = comicListWithPosition.first
-                    currentPosition = comicListWithPosition.second
-                }
+            rajComic.value?.let { initialComic ->
+                getSelectedComicWithPositionUseCae.invokeUseCase(
+                    rajComicsList,
+                    initialComic
+                )
+                    .onStart {
+                        // showLoader()
+                    }
+                    .onCompletion {
+                        // hideLoader
+                    }
+                    .collect { comicListWithPosition ->
+                        rajComicsCharacterList = comicListWithPosition.first
+                        currentPosition = comicListWithPosition.second
+                    }
+            }
         }
     }
 
@@ -68,7 +70,8 @@ constructor(
         }
     }
 
-    private fun isAdditionSafe(): Boolean = (currentPosition + 1) < rajComicsCharacterList.rajComicsList.size
+    private fun isAdditionSafe(): Boolean =
+        (currentPosition + 1) < rajComicsCharacterList.rajComicsList.size
 
     private fun isSubtractionSafe(): Boolean = currentPosition - 1 >= 0
 

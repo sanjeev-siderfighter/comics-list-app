@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class GetSelectedComicWithPositionUseCae
 @Inject
-constructor(private val getRajComicsListOfCharacterUseCase: GetRajComicsListOfCharacterUseCase) {
+constructor(private val searchRajComicsListUseCase: SearchRajComicsListUseCase) {
 
     suspend fun invokeUseCase(
         allRajComics: RajComicsListModel,
@@ -18,7 +18,7 @@ constructor(private val getRajComicsListOfCharacterUseCase: GetRajComicsListOfCh
     ): Flow<Pair<RajComicsListModel, Int>> {
         return withContext(Dispatchers.Default) {
             flow {
-                getRajComicsListOfCharacterUseCase.invokeUseCase(
+                searchRajComicsListUseCase.invokeUseCase(
                     allRajComics,
                     selectedComic.characterName
                 )
