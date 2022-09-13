@@ -35,10 +35,10 @@ constructor(rajComicsListDiffUtil: RajComicsListDiffUtil) :
     }
 
     override fun onBindViewHolder(holder: ComicsListViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(rajComicsListItemModel = getItem(position), position = position)
     }
 
     interface ItemClickListener {
-        fun onItemClick(rajComicsItem: RajComicsListItemModel)
+        fun onItemClick(rajComicsItem: RajComicsListItemModel, position: Int)
     }
 }

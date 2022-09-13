@@ -82,7 +82,7 @@ class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
         viewModel.getRajComicsListByCharacter(character)
     }
 
-    override fun onItemClick(rajComicsItem: RajComicsListItemModel) {
+    override fun onItemClick(rajComicsItem: RajComicsListItemModel, position: Int) {
         viewModel.allRajComicsList.value?.let {
             sharedViewModel.passRajComicsList(it)
         }
@@ -91,7 +91,8 @@ class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
             RajComicsListFragmentDirections.actionRajComicsListFragmentToRajComicsDetailFragment(
                 comicTitle = rajComicsItem.comicName,
                 comicNumber = rajComicsItem.comicNumber,
-                characterName = rajComicsItem.characterName
+                characterName = rajComicsItem.characterName,
+                initialPosition = position
             )
         findNavController().navigate(action)
     }

@@ -9,11 +9,14 @@ class ComicsListViewHolder(
     private val itemClickListener: ComicsListAdapter.ItemClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(rajComicsListItemModel: RajComicsListItemModel) {
+    fun bind(rajComicsListItemModel: RajComicsListItemModel, position: Int) {
         binding.rajComicItem = rajComicsListItemModel
 
         binding.parentLayout.setOnClickListener {
-            itemClickListener.onItemClick(rajComicsItem = rajComicsListItemModel)
+            itemClickListener.onItemClick(
+                rajComicsItem = rajComicsListItemModel,
+                position = position
+            )
         }
     }
 }
