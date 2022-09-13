@@ -25,20 +25,31 @@ constructor(
     private val _allRajComicsList = MutableLiveData<RajComicsListModel>()
     val allRajComicsList: LiveData<RajComicsListModel> = _allRajComicsList
 
+    private val _shouldShowLoader = MutableLiveData<Boolean>()
+    val shouldShowLoader: LiveData<Boolean> = _shouldShowLoader
+
     fun getAllRajComics() {
         viewModelScope.launch {
             getAllRajComicsUseCase.invokeUseCase()
                 .onStart {
                     Log.d("siderfighter", "getAllRajComicsUseCase.invokeUseCase() onStart")
-                    // todo: show progress
+                    showLoader()
                 }
                 .onCompletion {
                     Log.d("siderfighter", "getAllRajComicsUseCase.invokeUseCase() onCompletion")
-                    // todo: hide progress
+                    hideLoader()
                 }
                 .collect {
                     _allRajComicsList.postValue(it)
                 }
         }
+    }
+
+    private fun showLoader() {
+        _shouldShowLoader.postValue(true)
+    }
+
+    private fun hideLoader() {
+        _shouldShowLoader.postValue(false)
     }
 }

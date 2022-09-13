@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.siderfighter.comicsinfo.databinding.RajComicsListFragmentBinding
+import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
 import com.siderfighter.comicsinfo.presentation.viewmodel.RajComicsListViewModel
 import com.siderfighter.comicsinfo.presentation.views.recyclerview.ComicsListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +19,7 @@ class RajComicsListFragment : Fragment() {
 
     private val viewModel: RajComicsListViewModel by viewModels()
     private lateinit var binding: RajComicsListFragmentBinding
+
     @Inject
     lateinit var rajComicsAdapter: ComicsListAdapter
 
@@ -37,10 +39,26 @@ class RajComicsListFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.allRajComicsList.observe(viewLifecycleOwner) {
-            Log.d("siderfighter", "$it")
-            rajComicsAdapter.setComicsList(it.rajComicsList)
-            binding.rvComicsList.adapter = rajComicsAdapter
+        viewModel.allRajComicsList.observe(viewLifecycleOwner) { rajComicsList ->
+            initComicsListAdapter(rajComicsList)
+        }
+
+        viewModel.shouldShowLoader.observe(viewLifecycleOwner) {
+            showOrHideLoader(it)
+        }
+    }
+
+    private fun initComicsListAdapter(rajComicsListObject: RajComicsListModel) {
+        Log.d("siderfighter", "$rajComicsListObject")
+        rajComicsAdapter.setComicsList(rajComicsListObject.rajComicsList)
+        binding.rvComicsList.adapter = rajComicsAdapter
+    }
+
+    private fun showOrHideLoader(shouldShow: Boolean) {
+        binding.loader.visibility = if (shouldShow) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
     }
 
