@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.siderfighter.comicsinfo.databinding.RajComicsListFragmentBinding
+import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
 import com.siderfighter.comicsinfo.presentation.viewmodel.RajComicsListViewModel
 import com.siderfighter.comicsinfo.presentation.views.recyclerview.ComicsListAdapter
@@ -15,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RajComicsListFragment : Fragment() {
+class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
 
     private val viewModel: RajComicsListViewModel by viewModels()
     private lateinit var binding: RajComicsListFragmentBinding
@@ -57,8 +58,10 @@ class RajComicsListFragment : Fragment() {
 
     private fun initComicsListAdapter(rajComicsListObject: RajComicsListModel) {
         Log.d("siderfighter", "$rajComicsListObject")
-        rajComicsAdapter.setComicsList(rajComicsListObject.rajComicsList)
-        binding.rvComicsList.adapter = rajComicsAdapter
+        binding.rvComicsList.adapter = rajComicsAdapter.apply {
+            setComicsList(rajComicsListObject.rajComicsList)
+            setItemClickListener(this@RajComicsListFragment)
+        }
     }
 
     private fun showOrHideLoader(shouldShow: Boolean) {
@@ -71,6 +74,10 @@ class RajComicsListFragment : Fragment() {
 
     private fun getRajComicsListOfCharacter(character: String) {
         viewModel.getRajComicsListByCharacter(character)
+    }
+
+    override fun onItemClick(rajComicsItem: RajComicsListItemModel) {
+        TODO("Not yet implemented")
     }
 
 }

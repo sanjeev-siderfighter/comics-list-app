@@ -13,8 +13,14 @@ class ComicsListAdapter
 constructor(rajComicsListDiffUtil: RajComicsListDiffUtil) :
     ListAdapter<RajComicsListItemModel, ComicsListViewHolder>(rajComicsListDiffUtil) {
 
+    private lateinit var itemClickListener: ItemClickListener
+
     fun setComicsList(comicsList: List<RajComicsListItemModel>) {
         submitList(comicsList)
+    }
+
+    fun setItemClickListener(itemClickListener: ItemClickListener) {
+        this.itemClickListener = itemClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicsListViewHolder {
@@ -23,11 +29,16 @@ constructor(rajComicsListDiffUtil: RajComicsListDiffUtil) :
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            itemClickListener = itemClickListener
         )
     }
 
     override fun onBindViewHolder(holder: ComicsListViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    interface ItemClickListener {
+        fun onItemClick(rajComicsItem: RajComicsListItemModel)
     }
 }
