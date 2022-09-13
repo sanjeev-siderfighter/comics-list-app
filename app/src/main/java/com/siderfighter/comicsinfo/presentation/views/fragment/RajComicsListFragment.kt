@@ -92,9 +92,7 @@ class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
     }
 
     override fun onItemClick(rajComicsItem: RajComicsListItemModel, position: Int) {
-        viewModel.allRajComicsList.value?.let {
-            sharedViewModel.passRajComicsList(it)
-        }
+        sharedViewModel.passRajComicsList(viewModel.allRajComics)
 
         val action =
             RajComicsListFragmentDirections.actionRajComicsListFragmentToRajComicsDetailFragment(

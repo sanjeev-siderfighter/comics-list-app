@@ -24,7 +24,7 @@ constructor(
     private val searchRajComicsListUseCase: SearchRajComicsListUseCase
 ) : ViewModel() {
 
-    private var allRajComics = RajComicsListModel(listOf())
+    var allRajComics = RajComicsListModel(listOf())
 
     private val _allRajComicsList = MutableLiveData<RajComicsListModel>()
     val allRajComicsList: LiveData<RajComicsListModel> = _allRajComicsList
