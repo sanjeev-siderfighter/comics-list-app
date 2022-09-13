@@ -1,6 +1,5 @@
 package com.siderfighter.comicsinfo.presentation.views.fragment
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,12 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.siderfighter.comicsinfo.R
 import com.siderfighter.comicsinfo.databinding.RajComicsDetailFragmentBinding
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import com.siderfighter.comicsinfo.presentation.viewmodel.MainViewModel
 import com.siderfighter.comicsinfo.presentation.viewmodel.RajComicsDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RajComicsDetailFragment : Fragment() {
 
     private val viewModel: RajComicsDetailViewModel by viewModels()
@@ -36,20 +36,36 @@ class RajComicsDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
         initObservers()
+        initClickListeners()
+    }
+
+    private fun initClickListeners() {
+        binding.animNextButton.setOnClickListener {
+            viewModel.getNextComicCharacterWise()
+        }
+
+        binding.animPreviousButton.setOnClickListener {
+            viewModel.getPreviousComicCharacterWise()
+        }
     }
 
     private fun initObservers() {
         sharedViewModel.rajComicsListLiveData.observe(viewLifecycleOwner) {
             Log.d("siderfighter", "observed shared view model")
             viewModel.rajComicsList = it
+            viewModel.fetchRajComicsListByCharacter(args.initialPosition)
         }
     }
 
     private fun setupUi() {
-        binding.comicItem = RajComicsListItemModel(
-            comicNumber = args.comicNumber,
-            comicName = args.comicTitle,
-            characterName = args.characterName
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        viewModel.setInitialComic(
+            RajComicsListItemModel(
+                comicNumber = args.comicNumber,
+                comicName = args.comicTitle,
+                characterName = args.characterName
+            )
         )
     }
 }
