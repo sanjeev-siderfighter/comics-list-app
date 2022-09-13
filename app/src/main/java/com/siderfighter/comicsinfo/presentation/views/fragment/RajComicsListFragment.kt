@@ -33,9 +33,16 @@ class RajComicsListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initClickListeners()
         initObservers()
 
         viewModel.getAllRajComics()
+    }
+
+    private fun initClickListeners() {
+        binding.btnEntireList.setOnClickListener {
+            getRajComicsListOfCharacter(binding.etSearchBox.text.toString())
+        }
     }
 
     private fun initObservers() {
@@ -60,6 +67,10 @@ class RajComicsListFragment : Fragment() {
         } else {
             View.GONE
         }
+    }
+
+    private fun getRajComicsListOfCharacter(character: String) {
+        viewModel.getRajComicsListByCharacter(character)
     }
 
 }

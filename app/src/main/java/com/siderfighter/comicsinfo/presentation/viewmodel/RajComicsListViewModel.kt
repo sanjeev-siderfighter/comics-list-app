@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetAllRajComicsUseCase
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetRajComicsByPageUseCase
+import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetRajComicsListByCharacterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -19,8 +20,11 @@ class RajComicsListViewModel
 @Inject
 constructor(
     private val getAllRajComicsUseCase: GetAllRajComicsUseCase,
-    private val getRajComicsByPageUseCase: GetRajComicsByPageUseCase
+    private val getRajComicsByPageUseCase: GetRajComicsByPageUseCase,
+    private val getRajComicsListByCharacterUseCase: GetRajComicsListByCharacterUseCase
 ) : ViewModel() {
+
+    private var allRajComics = RajComicsListModel(listOf())
 
     private val _allRajComicsList = MutableLiveData<RajComicsListModel>()
     val allRajComicsList: LiveData<RajComicsListModel> = _allRajComicsList
@@ -40,8 +44,27 @@ constructor(
                     hideLoader()
                 }
                 .collect {
-                    _allRajComicsList.postValue(it)
+                    allRajComics = it
+                    _allRajComicsList.postValue(allRajComics)
                 }
+        }
+    }
+
+    fun getRajComicsListByCharacter(character: String) {
+        if (character.trim().isBlank()) return
+
+        viewModelScope.launch {
+
+            getRajComicsListByCharacterUseCase.invokeUseCase(
+                rajComicsList = allRajComics,
+                character = character
+            ).onStart {
+                showLoader()
+            }.onCompletion {
+                hideLoader()
+            }.collect {
+                _allRajComicsList.postValue(it)
+            }
         }
     }
 
