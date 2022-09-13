@@ -5,4 +5,7 @@
     <string name="search_hint">Enter character you want to search</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="first_comic_toast">It\'s the first comic of %s</string>
+    <string name="last_comic_toast">It\'s the last comic of %s</string>
+
 </resources>
