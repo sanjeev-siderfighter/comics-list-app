@@ -16,5 +16,6 @@ data class RajComicsListItemModel(
 )
 
 data class RajComicsListModel(
-    val rajComicsList: List<RajComicsListItemModel>
+    val rajComicsList: List<RajComicsListItemModel>,
+    val nextPage: Int? = null
 )

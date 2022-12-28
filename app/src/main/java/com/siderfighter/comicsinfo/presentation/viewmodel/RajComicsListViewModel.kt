@@ -34,6 +34,24 @@ constructor(
 
     val searchKey = MutableLiveData<String>()
 
+    fun getRajComicsByPage(page: Int = 1) {
+        viewModelScope.launch {
+            getRajComicsByPageUseCase.invokeUseCase(page = page)
+                .onStart {
+                    Log.d("siderfighter", "getRajComicsByPage.invokeUseCase() onStart")
+                    showLoader()
+                }
+                .onCompletion {
+                    Log.d("siderfighter", "getRajComicsByPage.invokeUseCase() onCompletion")
+                    hideLoader()
+                }
+                .collect {
+                    allRajComics = it
+                    _allRajComicsList.postValue(allRajComics)
+                }
+        }
+    }
+
     fun getAllRajComics() {
         viewModelScope.launch {
             getAllRajComicsUseCase.invokeUseCase()

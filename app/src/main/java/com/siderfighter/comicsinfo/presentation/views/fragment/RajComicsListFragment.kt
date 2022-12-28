@@ -44,6 +44,7 @@ class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
         initObservers()
 
         viewModel.getAllRajComics()
+//        viewModel.getRajComicsByPage()
     }
 
     private fun setupBinding() {
