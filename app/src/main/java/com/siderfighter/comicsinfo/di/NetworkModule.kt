@@ -18,20 +18,21 @@ private const val RAJ_COMICS_INFO_BASE_URL = "https://script.google.com/macros/s
 class NetworkModule {
     @Singleton
     @Provides
-    fun getRajComicsInstance(): RajComicsNetworkInterface {
+    fun getRajComicsInstance(okHttpClient: OkHttpClient): RajComicsNetworkInterface {
         val retrofit = Retrofit.Builder()
             .baseUrl(RAJ_COMICS_INFO_BASE_URL)
-            .client(getLoggingInterceptor().build())
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         return retrofit.create(RajComicsNetworkInterface::class.java)
     }
 
-    private fun getLoggingInterceptor(): OkHttpClient.Builder {
+    @Provides
+    fun getLoggingInterceptor(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
-        return OkHttpClient.Builder().addInterceptor(loggingInterceptor)
+        return OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
     }
 }
