@@ -1,13 +1,13 @@
 package com.siderfighter.comicsinfo.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetSelectedComicWithPositionUseCae
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -23,11 +23,11 @@ constructor(
     private var rajComicsCharacterList = RajComicsListModel(emptyList())
     private var currentPosition: Int = 0
 
-    private val _rajComic = MutableLiveData<RajComicsListItemModel>()
-    val rajComic: LiveData<RajComicsListItemModel> = _rajComic
+    private val _rajComic = MutableStateFlow<RajComicsListItemModel?>(null)
+    val rajComic: StateFlow<RajComicsListItemModel?> = _rajComic
 
-    private val _shouldShowToast = MutableLiveData<Boolean>()
-    val shouldShowToast: LiveData<Boolean> = _shouldShowToast
+    private val _shouldShowToast = MutableStateFlow<Boolean?>(null)
+    val shouldShowToast: StateFlow<Boolean?> = _shouldShowToast
 
     fun setInitialComic(rajComic: RajComicsListItemModel) {
         _rajComic.value = rajComic
@@ -76,6 +76,6 @@ constructor(
     private fun isSubtractionSafe(): Boolean = currentPosition - 1 >= 0
 
     private fun sendRajComicsList(rajComic: RajComicsListItemModel) {
-        _rajComic.postValue(rajComic)
+        _rajComic.value = rajComic
     }
 }

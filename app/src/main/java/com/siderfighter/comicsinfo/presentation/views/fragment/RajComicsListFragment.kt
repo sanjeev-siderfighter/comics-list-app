@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.siderfighter.comicsinfo.databinding.RajComicsListFragmentBinding
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
@@ -16,6 +19,7 @@ import com.siderfighter.comicsinfo.presentation.viewmodel.MainViewModel
 import com.siderfighter.comicsinfo.presentation.viewmodel.RajComicsListViewModel
 import com.siderfighter.comicsinfo.presentation.views.recyclerview.ComicsListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -57,17 +61,33 @@ class RajComicsListFragment : Fragment(), ComicsListAdapter.ItemClickListener {
         }
     }
 
+    // use collect when every state matters
+    // use collectLatest when only the last state matters
     private fun initObservers() {
-        viewModel.allRajComicsList.observe(viewLifecycleOwner) { rajComicsList ->
-            initComicsListAdapter(rajComicsList)
-        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.allRajComicsList.collect { rajComicsList ->
+                        rajComicsList?.let {
+                            initComicsListAdapter(it)
+                        }
+                    }
+                }
 
-        viewModel.shouldShowLoader.observe(viewLifecycleOwner) {
-            showOrHideLoader(it)
-        }
+                launch {
+                    viewModel.shouldShowLoader.collect {
+                        showOrHideLoader(it)
+                    }
+                }
 
-        viewModel.searchKey.observe(viewLifecycleOwner) {
-            viewModel.searchRajComicsList(it)
+                launch {
+                    viewModel.searchKey.collect { searchKey ->
+                        searchKey?.let {
+                            viewModel.searchRajComicsList(it)
+                        }
+                    }
+                }
+            }
         }
     }
 
