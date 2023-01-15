@@ -10,6 +10,8 @@ import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetAllRajComicsUseCa
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetRajComicsByPageUseCase
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.SearchRajComicsListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -26,13 +28,13 @@ constructor(
 
     var allRajComics = RajComicsListModel(listOf())
 
-    private val _allRajComicsList = MutableLiveData<RajComicsListModel>()
-    val allRajComicsList: LiveData<RajComicsListModel> = _allRajComicsList
+    private val _allRajComicsList = MutableStateFlow<RajComicsListModel?>(null)
+    val allRajComicsList: StateFlow<RajComicsListModel?> = _allRajComicsList
 
-    private val _shouldShowLoader = MutableLiveData<Boolean>()
-    val shouldShowLoader: LiveData<Boolean> = _shouldShowLoader
+    private val _shouldShowLoader = MutableStateFlow<Boolean>(false)
+    val shouldShowLoader: StateFlow<Boolean> = _shouldShowLoader
 
-    val searchKey = MutableLiveData<String>()
+    val searchKey = MutableStateFlow<String?>(null)
 
     fun getAllRajComics() {
         viewModelScope.launch {
@@ -47,14 +49,14 @@ constructor(
                 }
                 .collect {
                     allRajComics = it
-                    _allRajComicsList.postValue(allRajComics)
+                    _allRajComicsList.value = allRajComics
                 }
         }
     }
 
     fun searchRajComicsList(key: String) {
         if (key.trim().isBlank()) {
-            _allRajComicsList.postValue(allRajComics)
+            _allRajComicsList.value = allRajComics
             return
         }
 
@@ -68,16 +70,16 @@ constructor(
             }.onCompletion {
                 hideLoader()
             }.collect {
-                _allRajComicsList.postValue(it)
+                _allRajComicsList.value = it
             }
         }
     }
 
     private fun showLoader() {
-        _shouldShowLoader.postValue(true)
+        _shouldShowLoader.value = true
     }
 
     private fun hideLoader() {
-        _shouldShowLoader.postValue(false)
+        _shouldShowLoader.value = false
     }
 }
