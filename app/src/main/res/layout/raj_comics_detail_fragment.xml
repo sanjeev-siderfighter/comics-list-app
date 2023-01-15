@@ -39,7 +39,7 @@
         <TextView
             android:id="@+id/tv_comic_number"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:gravity="center|end"
             android:text="@{viewModel.rajComic.comicNumber}"
             android:textSize="20sp"
