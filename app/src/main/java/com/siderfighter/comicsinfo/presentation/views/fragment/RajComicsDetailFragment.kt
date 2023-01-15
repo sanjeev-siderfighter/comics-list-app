@@ -13,7 +13,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
-import com.siderfighter.comicsinfo.R
 import com.siderfighter.comicsinfo.databinding.RajComicsDetailFragmentBinding
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import com.siderfighter.comicsinfo.presentation.viewmodel.MainViewModel
@@ -47,11 +46,11 @@ class RajComicsDetailFragment : Fragment() {
 
     private fun initClickListeners() {
         binding.animNextButton.setOnClickListener {
-            viewModel.getNextComicCharacterWise()
+            viewModel.getNextComicCharacterWise(character = args.characterName)
         }
 
         binding.animPreviousButton.setOnClickListener {
-            viewModel.getPreviousComicCharacterWise()
+            viewModel.getPreviousComicCharacterWise(character = args.characterName)
         }
     }
 
@@ -63,11 +62,8 @@ class RajComicsDetailFragment : Fragment() {
                         shouldShowToast?.let {
                             Toast.makeText(
                                 context,
-                                if (it) {
-                                    getString(R.string.last_comic_toast, args.characterName)
-                                } else {
-                                    getString(R.string.first_comic_toast, args.characterName)
-                                }, Toast.LENGTH_SHORT
+                                getString(it.first, it.second),
+                                Toast.LENGTH_SHORT
                             ).show()
                         }
                     }
