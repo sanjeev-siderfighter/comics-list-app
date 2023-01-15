@@ -2,14 +2,13 @@ package com.siderfighter.comicsinfo.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.siderfighter.comicsinfo.R
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetSelectedComicWithPositionUseCae
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,8 +25,12 @@ constructor(
     private val _rajComic = MutableStateFlow<RajComicsListItemModel?>(null)
     val rajComic: StateFlow<RajComicsListItemModel?> = _rajComic
 
-    private val _shouldShowToast = MutableStateFlow<Boolean?>(null)
-    val shouldShowToast: StateFlow<Boolean?> = _shouldShowToast
+    private val _shouldShowToast =
+        MutableSharedFlow<Pair<Int, String>>(
+            replay = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+    val shouldShowToast: SharedFlow<Pair<Int, String>> = _shouldShowToast
 
     fun setInitialComic(rajComic: RajComicsListItemModel) {
         _rajComic.value = rajComic
@@ -54,19 +57,19 @@ constructor(
         }
     }
 
-    fun getNextComicCharacterWise() {
+    fun getNextComicCharacterWise(character: String) {
         if (isAdditionSafe()) {
             sendRajComicsList(rajComic = rajComicsCharacterList.rajComicsList[++currentPosition])
         } else {
-            _shouldShowToast.value = true
+            _shouldShowToast.tryEmit(Pair(R.string.last_comic_toast, character))
         }
     }
 
-    fun getPreviousComicCharacterWise() {
+    fun getPreviousComicCharacterWise(character: String) {
         if (isSubtractionSafe()) {
             sendRajComicsList(rajComic = rajComicsCharacterList.rajComicsList[--currentPosition])
         } else {
-            _shouldShowToast.value = false
+            _shouldShowToast.tryEmit(Pair(R.string.first_comic_toast, character))
         }
     }
 
