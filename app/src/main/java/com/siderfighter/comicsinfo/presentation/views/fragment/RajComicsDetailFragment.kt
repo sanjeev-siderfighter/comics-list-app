@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.siderfighter.comicsinfo.R
 import com.siderfighter.comicsinfo.databinding.RajComicsDetailFragmentBinding
@@ -16,6 +19,7 @@ import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import com.siderfighter.comicsinfo.presentation.viewmodel.MainViewModel
 import com.siderfighter.comicsinfo.presentation.viewmodel.RajComicsDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RajComicsDetailFragment : Fragment() {
@@ -52,21 +56,36 @@ class RajComicsDetailFragment : Fragment() {
     }
 
     private fun initObservers() {
-        sharedViewModel.rajComicsListLiveData.observe(viewLifecycleOwner) {
-            Log.d("siderfighter", "observed shared view model")
-            viewModel.rajComicsList = it
-            viewModel.fetchRajComicsListByCharacter()
-        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.shouldShowToast.collect { shouldShowToast ->
+                        shouldShowToast?.let {
+                            Toast.makeText(
+                                context,
+                                if (it) {
+                                    getString(R.string.last_comic_toast, args.characterName)
+                                } else {
+                                    getString(R.string.first_comic_toast, args.characterName)
+                                }, Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
 
-        viewModel.shouldShowToast.observe(viewLifecycleOwner) {
-            Toast.makeText(
-                context,
-                if (it) {
-                    getString(R.string.last_comic_toast, args.characterName)
-                } else {
-                    getString(R.string.first_comic_toast, args.characterName)
-                }, Toast.LENGTH_SHORT
-            ).show()
+                launch {
+                    sharedViewModel.rajComicsListFlow.collect { rajComicsListModel ->
+                        Log.d(
+                            "siderfighter",
+                            "observed shared view model: isNull = ${rajComicsListModel == null}"
+                        )
+                        rajComicsListModel?.let {
+                            viewModel.rajComicsList = it
+                            viewModel.fetchRajComicsListByCharacter()
+                        }
+                    }
+                }
+            }
         }
     }
 
