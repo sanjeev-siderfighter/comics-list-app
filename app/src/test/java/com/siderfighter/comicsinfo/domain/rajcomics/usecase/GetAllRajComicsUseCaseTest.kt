@@ -5,8 +5,9 @@ import com.siderfighter.comicsinfo.domain.rajcomics.IRajComicsRepository
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListItemModel
 import com.siderfighter.comicsinfo.domain.rajcomics.RajComicsListModel
 import io.mockk.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 
 import org.junit.After
@@ -30,8 +31,9 @@ class GetAllRajComicsUseCaseTest {
         unmockkAll()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `test get all raj comics usecase without need for trimming`() {
+    fun `test get all raj comics usecase without need for trimming`() = runTest {
         val sampleResponse = RajComicsResponse(
             data = listOf(
                 listOf(
@@ -53,16 +55,15 @@ class GetAllRajComicsUseCaseTest {
 
         coEvery { rajComicsRepository.getAllRajComics() } returns sampleResponse
 
-        runBlocking {
-            val rajComicsModel = getAllRajComicsUseCase.invokeUseCase().first()
-            assertEquals(expectedRajComicsModel, rajComicsModel)
-        }
+        val rajComicsModel = getAllRajComicsUseCase.invokeUseCase().first()
+        assertEquals(expectedRajComicsModel, rajComicsModel)
 
         coVerify { rajComicsRepository.getAllRajComics() }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `test get all raj comics usecase with need for trimming`() {
+    fun `test get all raj comics usecase with need for trimming`() = runTest {
         val sampleResponse = RajComicsResponse(
             data = listOf(
                 listOf(
@@ -84,10 +85,8 @@ class GetAllRajComicsUseCaseTest {
 
         coEvery { rajComicsRepository.getAllRajComics() } returns sampleResponse
 
-        runBlocking {
-            val rajComicsModel = getAllRajComicsUseCase.invokeUseCase().first()
-            assertEquals(expectedRajComicsModel, rajComicsModel)
-        }
+        val rajComicsModel = getAllRajComicsUseCase.invokeUseCase().first()
+        assertEquals(expectedRajComicsModel, rajComicsModel)
 
         coVerify { rajComicsRepository.getAllRajComics() }
     }
