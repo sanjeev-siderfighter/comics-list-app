@@ -8,8 +8,10 @@ import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetAllRajComicsUseCa
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.GetRajComicsByPageUseCase
 import com.siderfighter.comicsinfo.domain.rajcomics.usecase.SearchRajComicsListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -35,11 +37,14 @@ constructor(
     val searchKey = MutableStateFlow<String?>(null)
 
     fun getAllRajComics() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getAllRajComicsUseCase.invokeUseCase()
                 .onStart {
                     Log.d("siderfighter", "getAllRajComicsUseCase.invokeUseCase() onStart")
                     showLoader()
+                }
+                .catch {
+                    _allRajComicsList.value = RajComicsListModel(emptyList())
                 }
                 .onCompletion {
                     Log.d("siderfighter", "getAllRajComicsUseCase.invokeUseCase() onCompletion")

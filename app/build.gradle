@@ -36,6 +36,11 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     namespace 'com.siderfighter.comicsinfo'
 }
 
@@ -60,6 +65,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     //For runBlockingTest, CoroutineDispatcher etc.
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation 'app.cash.turbine:turbine:0.13.0'
 
     // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -84,7 +90,7 @@ dependencies {
 
     // mockk test library
     implementation "io.mockk:mockk:1.13.3"
-    testImplementation ('org.junit.jupiter:junit-jupiter:5.8.2')
+    testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
 }
 
 // Allow references to generated code
